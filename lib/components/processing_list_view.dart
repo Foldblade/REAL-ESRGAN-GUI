@@ -19,7 +19,7 @@ class _ProcessingListViewState extends State<ProcessingListView> {
         itemBuilder: (buildContext, int index) {
           return Card(
               child: Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -39,7 +39,7 @@ class _ProcessingListViewState extends State<ProcessingListView> {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.only(left: 16),
+                            padding: const EdgeInsets.only(left: 16),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -52,12 +52,12 @@ class _ProcessingListViewState extends State<ProcessingListView> {
                         ],
                       ),
                       if (widget.processingList[index]["status"] < 0.0)
-                        Icon(
-                          Icons.pending,
+                        const Icon(
+                          Icons.pending_actions,
                           size: 32,
                         ),
                       if (widget.processingList[index]["status"] == 0.0)
-                        SizedBox(
+                        const SizedBox(
                           width: 32,
                           height: 32,
                           child: FittedBox(
@@ -68,7 +68,7 @@ class _ProcessingListViewState extends State<ProcessingListView> {
                           ),
                         ),
                       if (widget.processingList[index]["status"] > 0.0)
-                        Icon(
+                        const Icon(
                           Icons.check_circle_outline,
                           size: 32,
                         )
