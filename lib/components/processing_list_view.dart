@@ -56,20 +56,26 @@ class _ProcessingListViewState extends State<ProcessingListView> {
                           Icons.pending_actions,
                           size: 32,
                         ),
-                      if (widget.processingList[index]["status"] == 0.0)
-                        const SizedBox(
+                      if (0.0 <= widget.processingList[index]["status"] &&
+                          widget.processingList[index]["status"] < 1.0)
+                        SizedBox(
                           width: 32,
                           height: 32,
                           child: FittedBox(
                             child: CircularProgressIndicator(
-                              value: null,
+                              value: widget.processingList[index]["status"],
                               semanticsLabel: 'Circular progress indicator',
                             ),
                           ),
                         ),
-                      if (widget.processingList[index]["status"] > 0.0)
+                      if (widget.processingList[index]["status"] == 1.0)
                         const Icon(
                           Icons.check_circle_outline,
+                          size: 32,
+                        ),
+                      if (widget.processingList[index]["status"] == 2.0)
+                        const Icon(
+                          Icons.error_outline,
                           size: 32,
                         )
                     ],

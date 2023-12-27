@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -35,7 +37,7 @@ class _ProcessingPageState extends State<ProcessingPage> {
       _processingList.add({
         "input": filePath,
         "output": "",
-        "status": -1.0,
+        "status": -1.0, // -1.0 Pending 0.0-1.0 Processing(%) 2.0 Error
       });
     }
     super.initState();
@@ -64,10 +66,23 @@ class _ProcessingPageState extends State<ProcessingPage> {
       // environment: {p.join(Directory.current.path, 'bin')},
       // workingDirectory: p.join(Directory.current.path, 'bin'),
     );
+    process.stderr.transform(utf8.decoder).forEach((str) {
+      str.replaceAll('\r', '').replaceAll('\n', '');
+      if (RegExp(r'^[0-9]+\.[0-9]+%').hasMatch(str)) {
+        str = str.substring(0, str.indexOf('%'));
+        setState(() {
+          _processingList[index]["status"] = double.parse(str) / 100;
+        });
+      }
+    });
     var exitCode = await process.exitCode;
     if (exitCode == 0) {
       setState(() {
-        _processingList[index]["status"] = 1.0;
+        _processingList[index]["status"] = 1.0; // Done
+      });
+    } else {
+      setState(() {
+        _processingList[index]["status"] = 2.0; // Error
       });
     }
   }
